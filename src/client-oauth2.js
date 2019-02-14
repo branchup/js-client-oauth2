@@ -392,6 +392,37 @@ ClientOAuth2Token.prototype.expired = function () {
 }
 
 /**
+ * Revoke the token.
+ *
+ * @param  {Object}  opts
+ * @return {Promise}
+ */
+ClientOAuth2Token.prototype.revokeToken = function (opts) {
+  if (!this.accessToken) {
+    throw new Error('Unable to revoke without an access token')
+  }
+
+  var options = Object.assign({}, this.client.options, opts)
+  var headers = Object.assign({}, DEFAULT_HEADERS);
+  var body = {
+    token: this.accessToken
+  }
+
+  if (options.clientSecret) {
+    headers.Authorization = auth(options.clientId, options.clientSecret)
+  } else {
+    body.client_id = options.clientId
+  }
+
+  return this.client._request(requestOptions({
+    url: options.revokeTokenUri,
+    method: 'POST',
+    headers: headers,
+    body: body
+  }, options))
+}
+
+/**
  * Support resource owner password credentials OAuth 2.0 grant.
  *
  * Reference: http://tools.ietf.org/html/rfc6749#section-4.3
