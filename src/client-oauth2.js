@@ -425,10 +425,15 @@ OwnerFlow.prototype.getToken = function (username, password, opts) {
   var options = Object.assign({}, this.client.options, opts)
   var headers = Object.assign({}, DEFAULT_HEADERS)
   var body = {
-    scope: sanitizeScope(options.scopes),
     username: username,
     password: password,
     grant_type: 'password'
+  }
+
+  // Attach scope when it's defined.
+  var scope = sanitizeScope(options.scopes);
+  if (scope) {
+    body.scope = scope;
   }
 
   // `client_id`: REQUIRED, if the client is not authenticating with the
