@@ -24,6 +24,7 @@ declare namespace ClientOAuth2 {
     accessTokenUri?: string
     authorizationUri?: string
     redirectUri?: string
+    revokeTokenUri?: string
     scopes?: string[]
     state?: string
     body?: {
@@ -64,6 +65,7 @@ declare namespace ClientOAuth2 {
     tokenType: string;
     accessToken: string;
     refreshToken: string;
+    expires: Date;
 
     constructor(client: ClientOAuth2, data: Data);
     expiresIn(duration: number | Date): Date;
