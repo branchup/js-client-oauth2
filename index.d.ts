@@ -71,6 +71,7 @@ declare namespace ClientOAuth2 {
     expiresIn(duration: number | Date): Date;
     sign<T extends RequestObject>(requestObj: T): T;
     refresh(options?: Options): Promise<Token>;
+    revokeToken(options?: Options): Promise<void>;
     expired(): boolean;
   }
 
